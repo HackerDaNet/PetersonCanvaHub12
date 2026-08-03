@@ -1,0 +1,64 @@
+body{
+    background: #808080;
+    color: #FFF;
+    font-family: "Comic Neue", cursive;
+}
+
+section{
+    display: grid;
+    border-radius: 10px;
+    background: #0068a5;
+    justify-self: center;
+    justify-items: center;
+    align-content: center;
+    width: 1200px;
+    padding: 20px;
+    gap: 20px;
+}
+
+h1{
+    font-size: 50px;
+    -webkit-text-stroke: 2.5px #000;
+    margin-bottom: -20px;
+}
+
+label{
+    margin-top: 50px;
+    font-size: 40px;
+}
+
+input{
+    font-family: "Comic Neue", cursive;
+    font-size: 20px;
+    width: 500px;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+button{
+    font-size: 20px;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    font-family: "Comic Neue", cursive;
+    font-weight: bold;
+}
+
+ul{
+    background: #808080;
+    padding: 20px;
+    width: 1000px;
+    border-radius: 10px;
+}
+
+li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-top: -2px;
+    border-top: 2px solid #5a5a5a;
+    border-bottom: 2px solid #5a5a5a;
+}
