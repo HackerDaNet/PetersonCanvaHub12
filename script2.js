@@ -19,6 +19,67 @@ async function listarJogos() {
     `
 })
 
+pesquisarJogoGenero = async () => {
+    const genero = document.getElementById('pesquisaGenero').value;
+    if (!genero) {
+        alert('Por favor, insira um gênero para pesquisar.');
+        return;
+    }
+
+    const resposta = await fetch(`http://localhost:3099/jogos/buscaCategoria?genero=${encodeURIComponent(genero)}`);
+    const jogos = await resposta.json();
+
+    const lista = document.getElementById('lista');
+    lista.innerHTML = '';
+
+    if (jogos.length === 0) {
+        lista.innerHTML = '<li>Nenhum jogo encontrado para o gênero informado.</li>';
+        return;
+    }
+
+    jogos.forEach(jogo => {
+        lista.innerHTML += `
+        <li>
+            ${jogo.id} - ${jogo.nome} - ${jogo.preco} - ${jogo.genero} - ${jogo.data_entrada} - ${jogo.data_saida}
+            <div>
+                <button onclick="editarJogos(${jogo.id}, '${jogo.nome}', ${jogo.preco}, '${jogo.genero}', '${jogo.data_entrada}', '${jogo.data_saida}')">Editar</button>
+                <button onclick="excluirJogo(${jogo.id})">Excluir</button>
+            </div>
+        </li>
+        `;
+    });
+
+}
+
+pesquisarJogo = async () => {
+    const nome = document.getElementById('pesquisa').value;
+    if (!nome) {
+        alert('Por favor, insira um nome para pesquisar.');
+        return;
+    }
+
+    const resposta = await fetch(`http://localhost:3099/jogos/busca?nome=${encodeURIComponent(nome)}`);
+    const jogos = await resposta.json();
+
+    const lista = document.getElementById('lista');
+    lista.innerHTML = '';
+
+    if (jogos.length === 0) {
+        lista.innerHTML = '<li>Nenhum jogo encontrado para o nome informado.</li>';
+        return;
+    }
+
+    jogos.forEach(jogo => {
+        lista.innerHTML += `
+        <li>
+            ${jogo.id} - ${jogo.nome} - ${jogo.preco} - ${jogo.genero} - ${jogo.data_entrada} - ${jogo.data_saida}
+            <div>
+                <button onclick="editarJogos(${jogo.id}, '${jogo.nome}', ${jogo.preco}, '${jogo.genero}', '${jogo.data_entrada}', '${jogo.data_saida}')">Editar</button>
+                <button onclick="excluirJogo(${jogo.id})">Excluir</button>
+            </div>
+        </li>
+        `;
+    });
 }
 
 async function cadastrarJogo(){
@@ -85,4 +146,4 @@ async function excluirJogo(id) {
     });
 
     listarJogos();
-}
+}}
