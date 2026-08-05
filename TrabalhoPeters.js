@@ -22,9 +22,60 @@ server.get('/jogos', (req, res) => {
     });
 });
 
+//===================================
+//Método HTTP: GET
+//LISTAR jogos por nome
+//localhost:3099/jogos/busca?nome=Minecraft
+server.get('/jogos/busca', (req, res) => {
+    const nomeBusca = req.query.nome;
+    if (!nomeBusca) {
+        return res.status(400).json({ erro: 'Parâmetro nome é obrigatório' });
+    }
+
+    const sql = 'SELECT * FROM jogos WHERE nome LIKE ?';
+    const nomeVariavel = `%${nomeBusca}%`;
+    connection.query(sql, [nomeVariavel], (erro, resultados) => {
+        if (erro) {
+            return res.status(500).json({ erro: erro.message });
+        }
+        return res.json(resultados);
+    });
+});
+
+//===================================
+//Método HTTP: GET
+//LISTAR jogos por gênero/categoria
+//localhost:3099/jogos/buscaCategoria?genero=Ação
+server.get('/jogos/buscaCategoria', (req, res) => {
+    const generoBusca = req.query.genero;
+    if (!generoBusca) {
+        return res.status(400).json({ erro: 'Parâmetro genero é obrigatório' });
+    }
+
+    // Busca por gênero inteiro ou por combinação com separador '/'
+    const sql = `SELECT * FROM jogos WHERE 
+        genero = ? OR 
+        genero LIKE ? OR 
+        genero LIKE ? OR 
+        genero LIKE ?`;
+    const parametros = [
+        generoBusca,
+        `${generoBusca}/%`,
+        `%/${generoBusca}`,
+        `%/${generoBusca}/%`
+    ];
+
+    connection.query(sql, parametros, (erro, resultados) => {
+        if (erro) {
+            return res.status(500).json({ erro: erro.message });
+        }
+        return res.json(resultados);
+    });
+});
+
 //Método HTTP: GET
 //LISTAR UM UNICO CURSO
-//localhost:3000/curso/2
+//localhost:3099/jogos/2
 server.get('/jogos/:id', (req, res) => {
     const sql = 'SELECT * FROM jogos WHERE id = ?';
 
